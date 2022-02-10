@@ -23,12 +23,9 @@ public class Game {
         team2.setupPlayers(201);
         teams.add(team1);
         teams.add(team2);
-        print();
+
     }
-    public void print()
-    {
-        System.out.println(teams.get(0).getId());
-    }
+
 
 
     public void match()
@@ -249,30 +246,6 @@ public class Game {
         {
             System.out.println("Its a Tie");
         }
-
-
-//        noOfBalls = 30;
-//
-//        while(noOfBalls>0 && team2_w>1)
-//        {
-//            String outcome = randomOutcome();
-//            if(outcome.equals("W"))
-//            {
-//                team2_w--;
-//                System.out.println("And it is OUT");
-//            }
-//            else
-//            {
-//                team2.setScore(team2.getScore() + Integer.parseInt(outcome));
-//                System.out.println("Score on this ball: "+outcome + "run/s");
-//            }
-//            noOfBalls--;
-//        }
-//        System.out.println("...................");
-//        System.out.println(team2.getName() + "SCORE IS : " + team2.getScore());
-//        System.out.println("...................");
-//
-
 
     }
     public int toss(){
