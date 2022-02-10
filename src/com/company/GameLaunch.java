@@ -6,6 +6,7 @@ public class GameLaunch {
         Game iplGame = new Game();
         iplGame.setupTeams();
         iplGame.match();
+        //iplGame.print();
     }
 
 }
