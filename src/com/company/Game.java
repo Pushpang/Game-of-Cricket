@@ -4,7 +4,7 @@ package com.company;
 public class Game {
 
     private Team battingTeam,bowlingTeam;
-    private int overs = 20;
+    public static final int OVERS = 5;
     private Player onStrike,nonStrike,bowler;
 
     // setting up both the teams
@@ -15,10 +15,8 @@ public class Game {
         bowlingTeam.setId(1002);
         battingTeam.setName("CSK");
         bowlingTeam.setName("MI");
-        battingTeam.setPlayers(11) ;
-        bowlingTeam.setPlayers(11) ;
-        battingTeam.setNotOut(11);
-        bowlingTeam.setNotOut(11);
+        battingTeam.setWickets(0);
+        bowlingTeam.setWickets(0);
         System.out.println("Team 1 name: " + battingTeam.getName());
         System.out.println("Team 2 name: " + bowlingTeam.getName());
         battingTeam.setupPlayers(101);
@@ -39,17 +37,16 @@ public class Game {
     }
 
     //for a single ball, made a ballOutcome method which stores the particular ball outcome to players profile, prints result per ball
-    public int ballOutcome(int nextBatsman){
+    public void ballOutcome(){
         String outcome = randomOutcome();
         if (outcome.equals("W")) {
-            battingTeam.setNotOut(battingTeam.getNotOut() - 1);
+            battingTeam.setWickets(battingTeam.getWickets() + 1);
             System.out.println(onStrike.getName() + " is OUT");
             onStrike.setBallsFaced(onStrike.getBallsFaced() + 1);
             bowler.setWicketsTaken(bowler.getWicketsTaken() + 1);
 
-            if(battingTeam.getNotOut()>1) {
-                onStrike = battingTeam.getMember().get(nextBatsman);
-                nextBatsman++;
+            if(battingTeam.getWickets()<10) {
+                onStrike = battingTeam.getMember().get(Math.max(onStrike.getInAt(),nonStrike.getInAt()));
             }
 
         }
@@ -68,24 +65,22 @@ public class Game {
             bowler.setRunsGiven(bowler.getRunsGiven() + Integer.parseInt(outcome));
 
             System.out.println("Score on this ball: " + outcome + "run/s");
-            Player temp =  onStrike;
-            onStrike = nonStrike;
-            nonStrike = temp;
+            strikeRotate();
         }
         bowler.setBallsDelivered(bowler.getBallsDelivered() + 1);
-        return nextBatsman;
+
     }
 
-    //for an inning, made a method which is responsible for conducting overs of an inning, in it bowlers are changed, ballOutcome method is called repeatedly (also nextPlayer variable is passed in it so that which player will come to bat next can be tracked) . It is also responsible for change of strike after every over, and also prints score after every over and detailed info at the end of the inning
+    //for an inning, made a method which is responsible for conducting overs of an inning, in it the bowlers are changed, ballOutcome method is called repeatedly (also nextPlayer variable is passed in it so that which player will come to bat next can be tracked) . It is also responsible for change of strike after every over, and also prints score after every over and detailed info at the end of the inning
     public void inning(boolean secondInning){
         onStrike = battingTeam.getMember().get(0);
         nonStrike = battingTeam.getMember().get(1);
-        int nextBatsman = 2,bowlAt = 0,i,j;
-        for( i=0;i<overs && battingTeam.getNotOut()>1;i++)
+        int bowlAt = 0,i,j;
+        for( i=0;i<OVERS && battingTeam.getWickets()<10;i++)
         {
-            bowler = bowlingTeam.getMember().get(battingTeam.getPlayers() - 1 - bowlAt);
-            for( j=0;j<6 && battingTeam.getNotOut()>1;j++) {
-                nextBatsman = ballOutcome(nextBatsman);
+            bowler = bowlingTeam.getMember().get(Team.NUMBER_OF_PLAYERS_IN_A_TEAM - 1 - bowlAt);
+            for( j=0;j<6 && battingTeam.getWickets()<10;j++) {
+                ballOutcome();
                 if(secondInning && (battingTeam.getScore()>bowlingTeam.getScore()) )
                 {
                     break;
@@ -94,7 +89,11 @@ public class Game {
             }
 
             System.out.println("****");
-            System.out.println("Score after "+(i+1)+"."+(bowler.getBallsDelivered())%6+" over(s) is "+ battingTeam.getScore() );
+            if(j==6)
+                System.out.println("Score after "+(i+1)+"."+(bowler.getBallsDelivered())%6+" over(s) is "+ battingTeam.getScore() );
+            else
+                System.out.println("Score after "+(i)+"."+(bowler.getBallsDelivered())%6+" over(s) is "+ battingTeam.getScore() );
+
             System.out.println(onStrike.getName() + " : " + onStrike.getRunsScored()+"("+ onStrike.getBallsFaced()+")");
             System.out.println(nonStrike.getName() + " : " + nonStrike.getRunsScored()+"("+nonStrike.getBallsFaced()+")");
             System.out.println("****");
@@ -102,15 +101,13 @@ public class Game {
             {
                 break;
             }
-            Player temp =  onStrike;
-            onStrike = nonStrike;
-            nonStrike = temp;
+            strikeRotate();
             bowlAt =(bowlAt+1)%6;
 
         }
 
         System.out.println("...................");
-        System.out.println(battingTeam.getName() + " SCORE IS : " + battingTeam.getScore()+"/"+(11-battingTeam.getNotOut()));
+        System.out.println(battingTeam.getName() + " SCORE IS : " + battingTeam.getScore()+"/"+(battingTeam.getWickets()));
         System.out.println("...................");
         for(Player currentPlayer : battingTeam.getMember())
         {
@@ -144,7 +141,7 @@ public class Game {
     }
 
     //in match method, called inning method twice for both innings (although with slight variations so that in second inning the target is also considered and the game stops on that ball when target is achieved). Moreover, printing the final result here after due comparison of stats.
-    public void match()
+    public void startMatch()
     {
 
         //team 1 batting starts
@@ -177,6 +174,14 @@ public class Game {
         }
         System.out.println("^^^^");
 
+    }
+
+    public void strikeRotate()
+    {
+        Player tempPlayer;
+        tempPlayer = onStrike;
+        onStrike = nonStrike;
+        nonStrike= tempPlayer;
     }
 
     public String randomOutcome(){

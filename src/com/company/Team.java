@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Team {
     private int teamId;
     private String name;
-    private int noOfPlayers;
     private int score=0;
-    private int notOut;
+    private int wickets;
+    public static final int NUMBER_OF_PLAYERS_IN_A_TEAM = 11;
     private ArrayList<Player> member = new ArrayList<>();
 
     public void setId(int teamId)
@@ -16,13 +16,6 @@ public class Team {
     }
     public int getId() {
         return teamId;
-    }
-
-    public void setPlayers(int noOfPlayers){
-        this.noOfPlayers = noOfPlayers;
-    }
-    public int getPlayers(){
-        return noOfPlayers;
     }
 
     public void setName(String name)
@@ -40,15 +33,15 @@ public class Team {
         return score;
     }
 
-    public int getNotOut(){
-        return notOut;
+    public int getWickets(){
+        return wickets;
     }
-    public void setNotOut(int notOut){
-        this.notOut = notOut;
+    public void setWickets(int wickets){
+        this.wickets = wickets;
     }
 
     public void setupPlayers(int idCode){
-        for(int i=0;i<noOfPlayers;i++)
+        for(int i=0;i<NUMBER_OF_PLAYERS_IN_A_TEAM;i++)
         {
             Player p = new Player();
             p.setName( name + (i+1) );    //for the sake of convenience, player name is declared as team name plus integer. eg: CSK1,CSK2...
