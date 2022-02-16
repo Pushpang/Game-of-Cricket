@@ -5,8 +5,10 @@ public class Player {
     private int playerId;
     private int runsScored;
     private int ballsFaced;
+    private float strikeRate;
     private int runsGiven;
     private int ballsDelivered;
+    private float economy;
     private int wicketsTaken;
     private int inAt;
     private String role;
@@ -81,6 +83,22 @@ public class Player {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public float getStrikeRate() {
+        return strikeRate;
+    }
+
+    public void setStrikeRate(float strikeRate) {
+        this.strikeRate = strikeRate;
+    }
+
+    public float getEconomy() {
+        return economy;
+    }
+
+    public void setEconomy(float economy) {
+        this.economy = economy;
     }
 }
 
