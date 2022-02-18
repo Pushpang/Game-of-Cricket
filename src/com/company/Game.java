@@ -56,7 +56,7 @@ public class Game {
     //for a single ball, made a ballOutcome method which stores the particular ball outcome to players profile, prints result per ball
     public void ballOutcome(boolean secondInning){
         ballCount++;
-        String outcome = randomOutcome();
+        String outcome = MatchUtility.randomOutcome(onStrike);
         storeOutcome(onStrike.getPlayerId(),bowler.getPlayerId(),outcome,secondInning);
 
         if (outcome.equals("W")) {
@@ -171,22 +171,22 @@ public class Game {
         nonStrike= tempPlayer;
     }
 
-    public String randomOutcome(){              //changed the outcomes array according to the role of player on strike
-        String[] outcomes ;
-        if(onStrike.getRole().equals("Batter"))
-        {
-            outcomes= new String[] {"0","1","2","3","4","6",
-                    "0","1","2","3","4","6",
-                    "0","1","2","W"};
-        }
-        else if(onStrike.getRole().equals("All-Rounder"))
-        {
-            outcomes= new String[] {"0","1","2","3","4","6",
-                    "0","1","2","3","W"};
-        }
-        else
-        outcomes= new String[] {"0","1","2","3","4","W","W"};
-
-        return outcomes[(int) (Math.random()*outcomes.length)];
-    }
+//    public String randomOutcome(){              //changed the outcomes array according to the role of player on strike
+//        String[] outcomes ;
+//        if(onStrike.getRole().equals("Batter"))
+//        {
+//            outcomes= new String[] {"0","1","2","3","4","6",
+//                    "0","1","2","3","4","6",
+//                    "0","1","2","W"};
+//        }
+//        else if(onStrike.getRole().equals("All-Rounder"))
+//        {
+//            outcomes= new String[] {"0","1","2","3","4","6",
+//                    "0","1","2","3","W"};
+//        }
+//        else
+//        outcomes= new String[] {"0","1","2","3","4","W","W"};
+//
+//        return outcomes[(int) (Math.random()*outcomes.length)];
+//    }
 }
