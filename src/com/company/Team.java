@@ -45,11 +45,11 @@ public class Team {
         {
             Player p = new Player();
             p.setName( name + (i+1) );    //for the sake of convenience, player name is declared as team name plus integer. eg: CSK1,CSK2...
-            p.setPlayerId( idCode*10 + i+1);
+            p.setPlayerId( idCode*10 + (i+1));
             p.setInAt(i+1);
             if(i<5)
             {
-                p.setRole("Batsman");
+                p.setRole("Batter");
             }
             else if(i<7)
             {
