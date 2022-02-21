@@ -3,6 +3,7 @@ package com.company;
 import java.util.ArrayList;
 
 public class Team {
+
     private int teamId;
     private String name;
     private int score=0;
@@ -49,15 +50,15 @@ public class Team {
             p.setInAt(i+1);
             if(i<5)
             {
-                p.setRole("Batter");
+                p.setRole(PlayerRole.BATTER);
             }
             else if(i<7)
             {
-                p.setRole("All-Rounder");
+                p.setRole(PlayerRole.ALL_ROUNDER);
             }
             else
             {
-                p.setRole("Bowler");
+                p.setRole(PlayerRole.BOWLER );
             }
             member.add(p);
         }
@@ -67,7 +68,4 @@ public class Team {
         return member;
     }
 
-    public void setMember(ArrayList<Player> member) {
-        this.member = member;
-    }
 }

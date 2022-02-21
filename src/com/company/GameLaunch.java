@@ -8,7 +8,7 @@ public class GameLaunch {
         iplGame.toss();
         iplGame.startMatch();
         iplGame.printResult();
-        iplGame.printScoreBoardPerBall();
+        iplGame.printingScore();
 
     }
 
