@@ -20,22 +20,34 @@ public enum RandomOutputOfBall {
     }
 
     public static RandomOutputOfBall randomOutcome(Player onStrike){
-        Integer[] outcomes ;
+//        Integer[] outcomes ;
+//        if(onStrike.getRole() == PlayerRole.BATTER)
+//        {
+//
+//            outcomes= new Integer[] {0,1,2,3,4,5,0,1,1,2,2,3,4,5,6};  // array of index hence 5 represents SIX and 6 represents WICKET as, SIX is at index 5 , W is at index 6
+//        }
+//        else if(onStrike.getRole() == PlayerRole.ALL_ROUNDER)
+//        {
+//            outcomes= new Integer[] {0,1,2,3,4,5,0,0,1,1,2,3,6};
+//        }
+//        else {
+//            outcomes = new Integer[]{0,1,2,3,4,6};
+//
+//        }
+        RandomOutputOfBall[] outcomes ;
         if(onStrike.getRole() == PlayerRole.BATTER)
         {
-
-            outcomes= new Integer[] {0,1,2,3,4,5,0,1,1,2,2,3,4,5,6};  // array of index hence 5 represents SIX and 6 represents WICKET as, SIX is at index 5 , W is at index 6
+            outcomes= new RandomOutputOfBall[]{ZERO,ONE,TWO,THREE,FOUR,SIX,ZERO,ONE,ONE,TWO,TWO,THREE,FOUR,SIX,WICKET};
         }
         else if(onStrike.getRole() == PlayerRole.ALL_ROUNDER)
         {
-            outcomes= new Integer[] {0,1,2,3,4,5,0,0,1,1,2,3,6};
+            outcomes= new RandomOutputOfBall[]{ZERO,ONE,TWO,THREE,FOUR,SIX,ZERO,ZERO,ONE,ONE,TWO,THREE,WICKET};
         }
         else {
-            outcomes = new Integer[]{0,1,2,3,4,6};
-
+            outcomes= new RandomOutputOfBall[]{ZERO,ONE,TWO,THREE,FOUR,WICKET};
         }
 
-        return values()[outcomes[(int) (Math.random()*outcomes.length)]];
+        return outcomes[(int) (Math.random()*outcomes.length)];
     }
 
 
