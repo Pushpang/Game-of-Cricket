@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.HashMap;
+
 public class Player {
     private String name;
     private int playerId;
@@ -11,8 +13,18 @@ public class Player {
     private float economy;
     private int wicketsTaken;
     private int inAt;
-    private String role;
+    private PlayerRole role;
+    private final HashMap<RandomOutputOfBall,Integer> runsFrequency = new HashMap<>();
 
+    Player(){
+        this.runsFrequency.put(RandomOutputOfBall.ZERO,0);
+        this.runsFrequency.put(RandomOutputOfBall.ONE,0);
+        this.runsFrequency.put(RandomOutputOfBall.TWO,0);
+        this.runsFrequency.put(RandomOutputOfBall.THREE,0);
+        this.runsFrequency.put(RandomOutputOfBall.FOUR,0);
+        this.runsFrequency.put(RandomOutputOfBall.SIX,0);
+
+    }
     public String getName() {
         return name;
     }
@@ -77,11 +89,11 @@ public class Player {
         this.inAt = inAt;
     }
 
-    public String getRole() {
+    public PlayerRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(PlayerRole role) {
         this.role = role;
     }
 
@@ -99,6 +111,14 @@ public class Player {
 
     public void setEconomy(float economy) {
         this.economy = economy;
+    }
+
+    public void setRunsFrequency(RandomOutputOfBall outcome){
+        runsFrequency.put(outcome,runsFrequency.get(outcome)+1);
+    }
+
+    public HashMap<RandomOutputOfBall, Integer> getRunsFrequency() {
+        return runsFrequency;
     }
 }
 
