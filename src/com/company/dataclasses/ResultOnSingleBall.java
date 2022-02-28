@@ -1,4 +1,6 @@
-package com.company;
+package com.company.dataclasses;
+
+import com.company.dataclasses.RandomOutputOfBall;
 
 public class ResultOnSingleBall {
     private final int ballNumber;

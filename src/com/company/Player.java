@@ -1,5 +1,8 @@
 package com.company;
 
+import com.company.dataclasses.PlayerRole;
+import com.company.dataclasses.RandomOutputOfBall;
+
 import java.util.HashMap;
 
 public class Player {

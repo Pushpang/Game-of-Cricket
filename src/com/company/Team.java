@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.dataclasses.PlayerRole;
+
 import java.util.ArrayList;
 
 public class Team {

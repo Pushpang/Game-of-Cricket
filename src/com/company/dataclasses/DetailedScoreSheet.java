@@ -1,4 +1,6 @@
-package com.company;
+package com.company.dataclasses;
+
+import com.company.OverDetails;
 
 import java.util.ArrayList;
 
@@ -9,7 +11,7 @@ public class DetailedScoreSheet {
     private final ArrayList<OverDetails>  overDataFirstInning  =new ArrayList<>(); // per over data of 1st inning
     private final ArrayList<OverDetails>  overDataSecondInning = new ArrayList<>(); // per over data of 2nd inning
 
-    public void setOutcome(int ballCount, int batterId, int bowlerId, RandomOutputOfBall outcome,boolean secondInning) {
+    public void setOutcome(int ballCount, int batterId, int bowlerId, RandomOutputOfBall outcome, boolean secondInning) {
         ResultOnSingleBall result = new ResultOnSingleBall(ballCount, batterId, bowlerId, outcome);
 
         if(!secondInning) {
