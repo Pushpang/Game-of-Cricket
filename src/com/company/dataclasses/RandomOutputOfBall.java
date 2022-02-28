@@ -1,4 +1,6 @@
-package com.company;
+package com.company.dataclasses;
+
+import com.company.Player;
 
 public enum RandomOutputOfBall {
     ZERO("0"),

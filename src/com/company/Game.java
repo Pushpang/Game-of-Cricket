@@ -1,5 +1,12 @@
 package com.company;
 
+import com.company.dataclasses.DetailedScoreSheet;
+import com.company.dataclasses.RandomOutputOfBall;
+
+import java.sql.*;
+import java.util.Scanner;
+
+
 public class Game {
     private final int matchId;
     private Team battingTeam, bowlingTeam;
@@ -18,10 +25,21 @@ public class Game {
 
         battingTeam = new Team();
         bowlingTeam = new Team();
-        battingTeam.setId(1001);
-        bowlingTeam.setId(1002);
-        battingTeam.setName("CSK");
-        bowlingTeam.setName("MI");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter Team 1 ID: ");
+        int team1Id = sc.nextInt();
+        battingTeam.setId(team1Id);
+        System.out.println("Enter Team 1 Name: ");
+        String team1Name = sc.next();
+        battingTeam.setName(team1Name);
+
+        System.out.println("Enter Team 2 ID: ");
+        int team2Id = sc.nextInt();
+        bowlingTeam.setId(team2Id);
+        System.out.println("Enter Team 2 Name: ");
+        String team2Name = sc.next();
+        bowlingTeam.setName(team2Name);
+
         battingTeam.setWickets(0);
         bowlingTeam.setWickets(0);
         System.out.println("Team 1 name: " + battingTeam.getName());
@@ -137,7 +155,7 @@ public class Game {
         bowlingTeam = tempTeam;
         //team 2 batting starts
         System.out.println(battingTeam.getName() + " batting starts");
-        inning(true);           ////calling inning method for batting of team2, passing true in it as it is NOT second inning
+        inning(true);           //calling inning method for batting of team2, passing true in it as it is NOT second inning
 
     }
 
@@ -158,6 +176,86 @@ public class Game {
         onStrike = nonStrike;
         nonStrike = tempPlayer;
     }
+
+    public void insertIntoDB(){
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/testDB";
+            String userName = "root";
+            String password = "Tekion@123";
+            insertDetailsInMatch(url, userName, password);
+            insertDetailsInTeamsInfo(url, userName, password);
+            insertDetailsInPlayersInfo(url,userName,password);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void insertDetailsInMatch(String url,String userName, String password){
+        try{
+            Connection con = DriverManager.getConnection(url,userName,password);
+            String query = "INSERT INTO matches (matchID, team1Id, team2Id) VALUES (?,?,?);";
+            PreparedStatement preStmt = con.prepareStatement(query);
+            preStmt.setInt(1,matchId);
+            preStmt.setInt(2,battingTeam.getId());
+            preStmt.setInt(3,bowlingTeam.getId());
+            preStmt.executeUpdate();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void insertDetailsInTeamsInfo(String url,String userName, String password){
+        try{
+            Connection con = DriverManager.getConnection(url,userName,password);
+            String query = "INSERT INTO teams_info (teamId,teamName) VALUES (?,?);";
+            PreparedStatement preStmt = con.prepareStatement(query);
+            preStmt.setInt(1,battingTeam.getId());
+            preStmt.setString(2,battingTeam.getName());
+            preStmt.executeUpdate();
+
+            preStmt.setInt(1,bowlingTeam.getId());
+            preStmt.setString(2,bowlingTeam.getName());
+            preStmt.executeUpdate();
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void insertDetailsInPlayersInfo(String url,String userName, String password){
+        try{
+            Connection con = DriverManager.getConnection(url,userName,password);
+            String query = "INSERT INTO players_info (playerId,teamId,playerName,playerRole,inAt) VALUES (?,?,?,?,?);";
+            PreparedStatement preStmt = con.prepareStatement(query);
+
+            for(Player currPlayer: battingTeam.getMember())
+            {
+                preStmt.setInt(1, currPlayer.getPlayerId());
+                preStmt.setInt(2, battingTeam.getId());
+                preStmt.setString(3,currPlayer.getName());
+                preStmt.setString(4, currPlayer.getRole().toString());
+                preStmt.setInt(5, currPlayer.getInAt());
+                preStmt.executeUpdate();
+            }
+            for(Player currPlayer: bowlingTeam.getMember())
+            {
+                preStmt.setInt(1, currPlayer.getPlayerId());
+                preStmt.setInt(2, bowlingTeam.getId());
+                preStmt.setString(3,currPlayer.getName());
+                preStmt.setString(4, currPlayer.getRole().toString());
+                preStmt.setInt(5, currPlayer.getInAt());
+                preStmt.executeUpdate();
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
