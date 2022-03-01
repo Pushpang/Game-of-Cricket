@@ -1,15 +1,15 @@
-package com.company.dataclasses;
-
-import com.company.dataclasses.RandomOutputOfBall;
+package com.company.scoreUtilitiesClasses;
 
 public class ResultOnSingleBall {
     private final int ballNumber;
+    private final int overNumber;
     private final int batterId;
     private final int bowlerId;
     public RandomOutputOfBall outcome;
     //private int overNumber;
-     public ResultOnSingleBall(int ballNumber,int batterId,int bowlerId,RandomOutputOfBall outcome){
+     public ResultOnSingleBall(int ballNumber,int overNumber,int batterId,int bowlerId,RandomOutputOfBall outcome){
          this.ballNumber = ballNumber;
+         this.overNumber = overNumber;
          this.batterId = batterId;
          this.bowlerId = bowlerId;
          this.outcome = outcome;
@@ -17,6 +17,10 @@ public class ResultOnSingleBall {
 
     public int getBallNumber() {
         return ballNumber;
+    }
+
+    public int getOverNumber() {
+        return overNumber;
     }
 
     public int getBatterId() {

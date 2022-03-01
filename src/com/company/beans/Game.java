@@ -1,21 +1,51 @@
-package com.company;
+package com.company.beans;
 
-import com.company.dataclasses.DetailedScoreSheet;
-import com.company.dataclasses.RandomOutputOfBall;
+import com.company.scoreUtilitiesClasses.DetailedScoreSheet;
+import com.company.scoreUtilitiesClasses.OverDetails;
+import com.company.scoreUtilitiesClasses.RandomOutputOfBall;
 
-import java.sql.*;
 import java.util.Scanner;
 
 
 public class Game {
     private final int matchId;
     private Team battingTeam, bowlingTeam;
-    public static final int OVERS = 20;
+    private int tossWinningTeamId;
+    private final int overs = 20;
     private Player onStrike, nonStrike, bowler;
     private final DetailedScoreSheet scoreBoard = new DetailedScoreSheet();
+    private int winnerTeamID;
 
     public Game(int matchId) {
         this.matchId = matchId;
+    }
+
+    public int getMatchId() {
+        return matchId;
+    }
+
+    public int getTossWinningTeamId() {
+        return tossWinningTeamId;
+    }
+
+    public Team getBattingTeam() {
+        return battingTeam;
+    }
+
+    public Team getBowlingTeam() {
+        return bowlingTeam;
+    }
+
+    public DetailedScoreSheet getScoreBoard() {
+        return scoreBoard;
+    }
+
+    public int getWinnerTeamID() {
+        return winnerTeamID;
+    }
+
+    public int getOvers() {
+        return overs;
     }
 
     // setting up both the teams
@@ -44,8 +74,8 @@ public class Game {
         bowlingTeam.setWickets(0);
         System.out.println("Team 1 name: " + battingTeam.getName());
         System.out.println("Team 2 name: " + bowlingTeam.getName());
-        battingTeam.setupPlayers(101);
-        bowlingTeam.setupPlayers(201);
+        battingTeam.setupPlayers();
+        bowlingTeam.setupPlayers();
 
     }
 
@@ -57,6 +87,8 @@ public class Game {
             battingTeam = bowlingTeam;
             bowlingTeam = t;
         }
+        tossWinningTeamId = battingTeam.getId();
+
         System.out.println("\nToss is WON by: " + battingTeam.getName() + " and they choose to bat\n");
 
     }
@@ -71,14 +103,14 @@ public class Game {
     public void ballOutcome(int ballCount, boolean secondInning, OverDetails over) {
 
         RandomOutputOfBall outcome = RandomOutputOfBall.randomOutcome(onStrike);
-        scoreBoard.setOutcome(ballCount, onStrike.getPlayerId(), bowler.getPlayerId(), outcome, secondInning);
+        scoreBoard.setOutcome(ballCount,over.getTotalRunsInOver(), onStrike.getPlayerId(), bowler.getPlayerId(), outcome, secondInning);
         over.setOutcomeFrequency(outcome);
 
         if (outcome == RandomOutputOfBall.WICKET) {
             battingTeam.setWickets(battingTeam.getWickets() + 1);
             onStrike.setBallsFaced(onStrike.getBallsFaced() + 1);
             bowler.setWicketsTaken(bowler.getWicketsTaken() + 1);
-
+            onStrike.setBowledBy(bowler.getPlayerId());
             if (battingTeam.getWickets() < 10) {
                 onStrike = battingTeam.getMember().get(Math.max(onStrike.getInAt(), nonStrike.getInAt()));
             }
@@ -105,9 +137,9 @@ public class Game {
         onStrike = battingTeam.getMember().get(0);
         nonStrike = battingTeam.getMember().get(1);
         int bowlAt = 0, i, j;
-        for (i = 0; i < OVERS && battingTeam.getWickets() < 10; i++) {
+        for (i = 0; i < overs && battingTeam.getWickets() < 10; i++) {
             bowler = bowlingTeam.getMember().get(Team.NUMBER_OF_PLAYERS_IN_A_TEAM - 1 - bowlAt);
-            OverDetails over = new OverDetails(i, bowler.getInAt());
+            OverDetails over = new OverDetails(i, bowler.getPlayerId());
             for (j = 0; j < 6 && battingTeam.getWickets() < 10; j++) {
                 ballOutcome(i * 6 + j + 1, secondInning, over);
 
@@ -117,7 +149,7 @@ public class Game {
 
             }
 
-            scoreBoard.setOverData(over, secondInning);
+            scoreBoard.setOverData(over, battingTeam.getId() ,secondInning);
 
             if (secondInning && (battingTeam.getScore() > bowlingTeam.getScore())) {
                 break;
@@ -163,10 +195,13 @@ public class Game {
         System.out.println("And the final result is:");
         if (bowlingTeam.getScore() > battingTeam.getScore()) {
             System.out.println(bowlingTeam.getName() + " Won");
+            winnerTeamID = bowlingTeam.getId();
         } else if (bowlingTeam.getScore() < battingTeam.getScore()) {
             System.out.println(battingTeam.getName() + " Won");
+            winnerTeamID=battingTeam.getId();
         } else {
             System.out.println("Its a Tie");
+            winnerTeamID = -1;
         }
     }
 
@@ -176,86 +211,86 @@ public class Game {
         onStrike = nonStrike;
         nonStrike = tempPlayer;
     }
+//
+//    public void insertIntoDB(){
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//            String url = "jdbc:mysql://localhost:3306/testDB";
+//            String userName = "root";
+//            String password = "Tekion@123";
+//            insertDetailsInMatch(url, userName, password);
+//            insertDetailsInTeamsInfo(url, userName, password);
+//            insertDetailsInPlayersInfo(url,userName,password);
+//
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
-    public void insertIntoDB(){
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/testDB";
-            String userName = "root";
-            String password = "Tekion@123";
-            insertDetailsInMatch(url, userName, password);
-            insertDetailsInTeamsInfo(url, userName, password);
-            insertDetailsInPlayersInfo(url,userName,password);
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void insertDetailsInMatch(String url,String userName, String password){
-        try{
-            Connection con = DriverManager.getConnection(url,userName,password);
-            String query = "INSERT INTO matches (matchID, team1Id, team2Id) VALUES (?,?,?);";
-            PreparedStatement preStmt = con.prepareStatement(query);
-            preStmt.setInt(1,matchId);
-            preStmt.setInt(2,battingTeam.getId());
-            preStmt.setInt(3,bowlingTeam.getId());
-            preStmt.executeUpdate();
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    public void insertDetailsInTeamsInfo(String url,String userName, String password){
-        try{
-            Connection con = DriverManager.getConnection(url,userName,password);
-            String query = "INSERT INTO teams_info (teamId,teamName) VALUES (?,?);";
-            PreparedStatement preStmt = con.prepareStatement(query);
-            preStmt.setInt(1,battingTeam.getId());
-            preStmt.setString(2,battingTeam.getName());
-            preStmt.executeUpdate();
-
-            preStmt.setInt(1,bowlingTeam.getId());
-            preStmt.setString(2,bowlingTeam.getName());
-            preStmt.executeUpdate();
-
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    public void insertDetailsInPlayersInfo(String url,String userName, String password){
-        try{
-            Connection con = DriverManager.getConnection(url,userName,password);
-            String query = "INSERT INTO players_info (playerId,teamId,playerName,playerRole,inAt) VALUES (?,?,?,?,?);";
-            PreparedStatement preStmt = con.prepareStatement(query);
-
-            for(Player currPlayer: battingTeam.getMember())
-            {
-                preStmt.setInt(1, currPlayer.getPlayerId());
-                preStmt.setInt(2, battingTeam.getId());
-                preStmt.setString(3,currPlayer.getName());
-                preStmt.setString(4, currPlayer.getRole().toString());
-                preStmt.setInt(5, currPlayer.getInAt());
-                preStmt.executeUpdate();
-            }
-            for(Player currPlayer: bowlingTeam.getMember())
-            {
-                preStmt.setInt(1, currPlayer.getPlayerId());
-                preStmt.setInt(2, bowlingTeam.getId());
-                preStmt.setString(3,currPlayer.getName());
-                preStmt.setString(4, currPlayer.getRole().toString());
-                preStmt.setInt(5, currPlayer.getInAt());
-                preStmt.executeUpdate();
-            }
-
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
+//    public void insertDetailsInMatch(String url,String userName, String password){
+//        try{
+//            Connection con = DriverManager.getConnection(url,userName,password);
+//            String query = "INSERT INTO matches (matchID, team1Id, team2Id) VALUES (?,?,?);";
+//            PreparedStatement preStmt = con.prepareStatement(query);
+//            preStmt.setInt(1,matchId);
+//            preStmt.setInt(2,battingTeam.getId());
+//            preStmt.setInt(3,bowlingTeam.getId());
+//            preStmt.executeUpdate();
+//
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//    public void insertDetailsInTeamsInfo(String url,String userName, String password){
+//        try{
+//            Connection con = DriverManager.getConnection(url,userName,password);
+//            String query = "INSERT INTO teams_info (teamId,teamName) VALUES (?,?);";
+//            PreparedStatement preStmt = con.prepareStatement(query);
+//            preStmt.setInt(1,battingTeam.getId());
+//            preStmt.setString(2,battingTeam.getName());
+//            preStmt.executeUpdate();
+//
+//            preStmt.setInt(1,bowlingTeam.getId());
+//            preStmt.setString(2,bowlingTeam.getName());
+//            preStmt.executeUpdate();
+//
+//
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//    public void insertDetailsInPlayersInfo(String url,String userName, String password){
+//        try{
+//            Connection con = DriverManager.getConnection(url,userName,password);
+//            String query = "INSERT INTO players_info (playerId,teamId,playerName,playerRole,inAt) VALUES (?,?,?,?,?);";
+//            PreparedStatement preStmt = con.prepareStatement(query);
+//
+//            for(Player currPlayer: battingTeam.getMember())
+//            {
+//                preStmt.setInt(1, currPlayer.getPlayerId());
+//                preStmt.setInt(2, battingTeam.getId());
+//                preStmt.setString(3,currPlayer.getName());
+//                preStmt.setString(4, currPlayer.getRole().toString());
+//                preStmt.setInt(5, currPlayer.getInAt());
+//                preStmt.executeUpdate();
+//            }
+//            for(Player currPlayer: bowlingTeam.getMember())
+//            {
+//                preStmt.setInt(1, currPlayer.getPlayerId());
+//                preStmt.setInt(2, bowlingTeam.getId());
+//                preStmt.setString(3,currPlayer.getName());
+//                preStmt.setString(4, currPlayer.getRole().toString());
+//                preStmt.setInt(5, currPlayer.getInAt());
+//                preStmt.executeUpdate();
+//            }
+//
+//
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//
 
 
 }

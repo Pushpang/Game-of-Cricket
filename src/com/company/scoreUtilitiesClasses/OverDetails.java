@@ -1,6 +1,4 @@
-package com.company;
-
-import com.company.dataclasses.RandomOutputOfBall;
+package com.company.scoreUtilitiesClasses;
 
 import java.util.HashMap;
 
@@ -10,7 +8,7 @@ public class OverDetails {
     private int totalRunsInOver=0;
     private final HashMap<RandomOutputOfBall,Integer> outcomeFrequency = new HashMap<>();
 
-    OverDetails(int overNumber,int bowlerId){
+    public OverDetails(int overNumber,int bowlerId){
         this.overNumber = overNumber;
         this.bowlerId = bowlerId;
         this.outcomeFrequency.put(RandomOutputOfBall.ZERO,0);
