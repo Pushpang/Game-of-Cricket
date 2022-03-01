@@ -1,18 +1,42 @@
-package com.company.dataclasses;
-
-import com.company.OverDetails;
+package com.company.scoreUtilitiesClasses;
 
 import java.util.ArrayList;
 
 public class DetailedScoreSheet {
     private int matchId;
+    private int firstBattingTeamId;
+    private int secondBattingTeamId;
     private final ArrayList<ResultOnSingleBall> scoreOnEveryBallFirstInning= new ArrayList<>(); // per ball data of 1st inning
     private final ArrayList<ResultOnSingleBall> scoreOnEveryBallSecondInning= new ArrayList<>(); // per ball data of 2nd inning
     private final ArrayList<OverDetails>  overDataFirstInning  =new ArrayList<>(); // per over data of 1st inning
     private final ArrayList<OverDetails>  overDataSecondInning = new ArrayList<>(); // per over data of 2nd inning
 
-    public void setOutcome(int ballCount, int batterId, int bowlerId, RandomOutputOfBall outcome, boolean secondInning) {
-        ResultOnSingleBall result = new ResultOnSingleBall(ballCount, batterId, bowlerId, outcome);
+    public ArrayList<OverDetails> getOverDataFirstInning() {
+        return overDataFirstInning;
+    }
+
+    public ArrayList<OverDetails> getOverDataSecondInning() {
+        return overDataSecondInning;
+    }
+
+    public ArrayList<ResultOnSingleBall> getScoreOnEveryBallFirstInning() {
+        return scoreOnEveryBallFirstInning;
+    }
+
+    public ArrayList<ResultOnSingleBall> getScoreOnEveryBallSecondInning() {
+        return scoreOnEveryBallSecondInning;
+    }
+
+    public int getFirstBattingTeamId() {
+        return firstBattingTeamId;
+    }
+
+    public int getSecondBattingTeamId() {
+        return secondBattingTeamId;
+    }
+
+    public void setOutcome(int ballCount, int overNumber,int batterId, int bowlerId, RandomOutputOfBall outcome, boolean secondInning) {
+        ResultOnSingleBall result = new ResultOnSingleBall(ballCount,overNumber, batterId, bowlerId, outcome);
 
         if(!secondInning) {
             scoreOnEveryBallFirstInning.add(result);
@@ -23,12 +47,14 @@ public class DetailedScoreSheet {
         }
     }
 
-    public void setOverData(OverDetails over, boolean secondInning){
+    public void setOverData(OverDetails over,int battingTeamId ,boolean secondInning){
 
         if(!secondInning){
+            firstBattingTeamId = battingTeamId;
             overDataFirstInning.add(over);
         }
         else{
+            secondBattingTeamId = battingTeamId;
             overDataSecondInning.add(over);
         }
 

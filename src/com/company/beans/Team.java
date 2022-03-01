@@ -1,6 +1,4 @@
-package com.company;
-
-import com.company.dataclasses.PlayerRole;
+package com.company.beans;
 
 import java.util.ArrayList;
 
@@ -11,7 +9,7 @@ public class Team {
     private int score=0;
     private int wickets;
     public static final int NUMBER_OF_PLAYERS_IN_A_TEAM = 11;
-    private ArrayList<Player> member = new ArrayList<>();
+    private final ArrayList<Player> member = new ArrayList<>();
 
     public void setId(int teamId)
     {
@@ -43,12 +41,12 @@ public class Team {
         this.wickets = wickets;
     }
 
-    public void setupPlayers(int idCode){
+    public void setupPlayers(){
         for(int i=0;i<NUMBER_OF_PLAYERS_IN_A_TEAM;i++)
         {
             Player p = new Player();
             p.setName( name + (i+1) );    //for the sake of convenience, player name is declared as team name plus integer. eg: CSK1,CSK2...
-            p.setPlayerId( idCode*10 + (i+1));
+            p.setPlayerId( (teamId*100 + (i+1)));
             p.setInAt(i+1);
             if(i<5)
             {

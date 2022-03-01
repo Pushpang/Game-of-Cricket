@@ -1,6 +1,7 @@
-package com.company.dataclasses;
+package com.company.scoreUtilitiesClasses;
 
-import com.company.Player;
+import com.company.beans.Player;
+import com.company.beans.PlayerRole;
 
 public enum RandomOutputOfBall {
     ZERO("0"),

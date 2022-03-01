@@ -1,7 +1,6 @@
-package com.company;
+package com.company.beans;
 
-import com.company.dataclasses.PlayerRole;
-import com.company.dataclasses.RandomOutputOfBall;
+import com.company.scoreUtilitiesClasses.RandomOutputOfBall;
 
 import java.util.HashMap;
 
@@ -17,6 +16,7 @@ public class Player {
     private int wicketsTaken;
     private int inAt;
     private PlayerRole role;
+    private int bowledBy;
     private final HashMap<RandomOutputOfBall,Integer> runsFrequency = new HashMap<>();
 
     Player(){
@@ -122,6 +122,14 @@ public class Player {
 
     public HashMap<RandomOutputOfBall, Integer> getRunsFrequency() {
         return runsFrequency;
+    }
+
+    public int getBowledBy() {
+        return bowledBy;
+    }
+
+    public void setBowledBy(int bowledBy) {
+        this.bowledBy = bowledBy;
     }
 }
 

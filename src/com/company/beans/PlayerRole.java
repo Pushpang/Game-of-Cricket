@@ -1,4 +1,4 @@
-package com.company.dataclasses;
+package com.company.beans;
 
 public enum PlayerRole {
     BATTER,
