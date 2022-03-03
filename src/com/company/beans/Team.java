@@ -1,5 +1,8 @@
 package com.company.beans;
 
+import com.company.CONSTANTS.Constants;
+import com.company.enums.PlayerRole;
+
 import java.util.ArrayList;
 
 public class Team {
@@ -7,8 +10,7 @@ public class Team {
     private int teamId;
     private String name;
     private int score=0;
-    private int wickets;
-    public static final int NUMBER_OF_PLAYERS_IN_A_TEAM = 11;
+    private int wickets=0;
     private final ArrayList<Player> member = new ArrayList<>();
 
     public void setId(int teamId)
@@ -42,7 +44,7 @@ public class Team {
     }
 
     public void setupPlayers(){
-        for(int i=0;i<NUMBER_OF_PLAYERS_IN_A_TEAM;i++)
+        for(int i = 0; i< Constants.NUMBER_OF_PLAYERS_IN_A_TEAM; i++)
         {
             Player p = new Player();
             p.setName( name + (i+1) );    //for the sake of convenience, player name is declared as team name plus integer. eg: CSK1,CSK2...
