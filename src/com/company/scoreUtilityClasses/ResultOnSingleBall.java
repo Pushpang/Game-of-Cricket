@@ -1,15 +1,16 @@
-package com.company.scoreUtilitiesClasses;
+package com.company.scoreUtilityClasses;
+
+import com.company.enums.RandomOutputOfBall;
 
 public class ResultOnSingleBall {
     private final int ballNumber;
-    private final int overNumber;
     private final int batterId;
     private final int bowlerId;
+    private final int battingTeamId;
     public RandomOutputOfBall outcome;
-    //private int overNumber;
-     public ResultOnSingleBall(int ballNumber,int overNumber,int batterId,int bowlerId,RandomOutputOfBall outcome){
+     public ResultOnSingleBall(int ballNumber,int battingTeamId,int batterId,int bowlerId,RandomOutputOfBall outcome){
          this.ballNumber = ballNumber;
-         this.overNumber = overNumber;
+         this.battingTeamId = battingTeamId;
          this.batterId = batterId;
          this.bowlerId = bowlerId;
          this.outcome = outcome;
@@ -17,10 +18,6 @@ public class ResultOnSingleBall {
 
     public int getBallNumber() {
         return ballNumber;
-    }
-
-    public int getOverNumber() {
-        return overNumber;
     }
 
     public int getBatterId() {
@@ -31,6 +28,7 @@ public class ResultOnSingleBall {
         return bowlerId;
     }
 
-
-
+    public int getBattingTeamId() {
+        return battingTeamId;
+    }
 }
