@@ -70,6 +70,9 @@ public class TeamRepositoryImpl implements TeamRepository{
             PreparedStatement preStmt = con.prepareStatement(Queries.insertIntoTeamsInfoQuery);
                 preStmt.setInt(1, team.getId());
                 preStmt.setString(2, team.getName());
+                preStmt.setLong(3, System.currentTimeMillis());
+                preStmt.setLong(4, System.currentTimeMillis());
+                preStmt.setBoolean(5, false);
                 preStmt.executeUpdate();
 
         }catch(Exception e){

@@ -79,12 +79,10 @@ public class GameServicesImp implements GameServices{
             battingTeam = game.getTeam2();
             bowlingTeam = game.getTeam1();
         }
-        Player onStrike = new Player();
-        Player nonStrike = new Player();
+        Player onStrike,nonStrike,bowler;
 
         onStrike = battingTeam.getMember().get(0);
         nonStrike = battingTeam.getMember().get(1);
-        Player bowler;
         int bowlAt = 0, i, j;
         for (i = 0; i < Constants.OVERS && battingTeam.getWickets() < 10; i++) {
             bowler = bowlingTeam.getMember().get(Constants.NUMBER_OF_PLAYERS_IN_A_TEAM - 1 - bowlAt);
@@ -104,31 +102,21 @@ public class GameServicesImp implements GameServices{
 
                     if (!(outcome == RandomOutputOfBall.ZERO || outcome == RandomOutputOfBall.TWO ||
                             outcome == RandomOutputOfBall.FOUR || outcome == RandomOutputOfBall.SIX)) {
-                       // strikeRotate(onStrike,nonStrike);
-                        Player tempPlayer;
-                        tempPlayer = onStrike;
-                        onStrike = nonStrike;
-                        nonStrike = tempPlayer;
-
+                        Player[]  rotatedPlayers = strikeRotate(onStrike,nonStrike);
+                        onStrike = rotatedPlayers[0];
+                        nonStrike = rotatedPlayers[1];
                     }
                 }
             }
-
-
-            if (secondInning && (battingTeam.getScore() > bowlingTeam.getScore())) {
-                break;
-            }
-            //strikeRotate(onStrike,nonStrike);
-            Player tempPlayer;
-            tempPlayer = onStrike;
-            onStrike = nonStrike;
-            nonStrike = tempPlayer;
+            if (secondInning && (battingTeam.getScore() > bowlingTeam.getScore())) break;
+            Player[]  rotatedPlayers =  strikeRotate(onStrike,nonStrike);
+            onStrike = rotatedPlayers[0];
+            nonStrike = rotatedPlayers[1];
             bowlAt = (bowlAt + 1) % 6;
 
         }
 
         result(game);
-
 
     }
     public RandomOutputOfBall ballOutcome(Game game,int ballCount,Player onStrike,Player nonStrike,Player bowler,Team battingTeam ) {
@@ -140,13 +128,9 @@ public class GameServicesImp implements GameServices{
         return outcome;
     }
 
-    // ?? THIS FUNCTION DECLARED OUTSIDE IS NOT WORKING
-//    public void strikeRotate(Player onStrike,Player nonStrike) {
-//        Player tempPlayer;
-//        tempPlayer = onStrike;
-//        onStrike = nonStrike;
-//        nonStrike = tempPlayer;
-//    }
+    public Player[] strikeRotate(Player onStrike,Player nonStrike) {
+        return new Player[]{nonStrike, onStrike};
+    }
 
     public void result(Game game){
         if(game.getTeam1().getScore()>game.getTeam2().getScore())

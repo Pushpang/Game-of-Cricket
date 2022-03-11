@@ -25,6 +25,9 @@ public class PlayerRepositoryImpl implements PlayerRepository {
                     preStmtPlayer.setString(3, currPlayer.getName());
                     preStmtPlayer.setString(4, currPlayer.getRole().toString());
                     preStmtPlayer.setInt(5, currPlayer.getInAt());
+                    preStmtPlayer.setLong(6, System.currentTimeMillis());
+                    preStmtPlayer.setLong(7, System.currentTimeMillis());
+                    preStmtPlayer.setBoolean(8, false);
                     preStmtPlayer.executeUpdate();
             }
         }catch(Exception e){

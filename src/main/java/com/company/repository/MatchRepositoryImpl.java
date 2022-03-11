@@ -39,33 +39,14 @@ public class MatchRepositoryImpl implements MatchRepository {
             preStmt.setInt(4,game.getScoreBoard().getFirstBattingTeamId());
             preStmt.setInt(5,game.getScoreBoard().getSecondBattingTeamId());
             preStmt.setInt(6,game.getWinnerTeamID());
+            preStmt.setLong(7, System.currentTimeMillis());
+            preStmt.setLong(8, System.currentTimeMillis());
+            preStmt.setBoolean(9, false);
             preStmt.executeUpdate();
 
         }catch(Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void getAllMatches() {
-        Connection con = UtilityClass.getConnection();
-        List<Match> allMatches;
-        Match match;
-        try{
-            PreparedStatement preStmt = con.prepareStatement(Queries.getAllMatches);
-            preStmt.executeQuery();
-//            ResultSet matchResult = preStmt.executeQuery();
-//            while(matchResult.next())
-//            {
-////                match.
-////            }
-////            matchResult.setId( teamResult.getInt(1));
-////            matchResult.setName(teamResult.getString(2));
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
     }
 
     @Override
