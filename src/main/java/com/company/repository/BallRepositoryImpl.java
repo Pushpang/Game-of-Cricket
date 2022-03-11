@@ -25,6 +25,9 @@ public class BallRepositoryImpl implements BallRepository {
                 preStmt.setInt(5, currBall.getBatterId());
                 preStmt.setInt(6, currBall.getBowlerId());
                 preStmt.setString(7, currBall.outcome.getValue());
+                preStmt.setLong(8, System.currentTimeMillis());
+                preStmt.setLong(9, System.currentTimeMillis());
+                preStmt.setBoolean(10, false);
                 preStmt.executeUpdate();
             }
 

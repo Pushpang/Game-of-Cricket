@@ -11,6 +11,5 @@ import java.sql.Connection;
 public interface MatchRepository {
     int getNewMatchId();
     void insertMatch(Connection con, Game game);
-    void getAllMatches();
     Match getMatchById(int matchId);
 }
