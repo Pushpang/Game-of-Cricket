@@ -1,6 +1,7 @@
 package com.company.enums;
 
-import com.company.beans.Player;
+
+import com.company.beans.PlayersInfo;
 
 public enum RandomOutputOfBall {
     ZERO("0"),
@@ -21,9 +22,9 @@ public enum RandomOutputOfBall {
         return this.value;
     }
 
-    public static RandomOutputOfBall randomOutcome(Player onStrike){
+    public static RandomOutputOfBall randomOutcome(PlayersInfo onStrike){
         RandomOutputOfBall[] outcomes ;
-        switch (onStrike.getRole()) {
+        switch (onStrike.getPlayerRole()) {
             case BATTER : outcomes = new RandomOutputOfBall[]{ZERO, ONE, TWO, THREE, FOUR, SIX, ZERO, ONE, ONE, TWO, TWO, THREE, FOUR, SIX, WICKET};
                 break;
             case ALL_ROUNDER : outcomes = new RandomOutputOfBall[]{ZERO, ONE, TWO, THREE, FOUR, SIX, ZERO, ZERO, ONE, ONE, TWO, THREE, WICKET};

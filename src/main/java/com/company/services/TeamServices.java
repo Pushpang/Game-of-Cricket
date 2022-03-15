@@ -1,8 +1,7 @@
 package com.company.services;
 
-import com.company.beans.Team;
-import com.company.entities.TeamInfo;
+import com.company.beans.TeamInfo;
 
 public interface TeamServices {
-    Team getTeamById(int teamId);
+    TeamInfo getTeamById(int teamId);
 }

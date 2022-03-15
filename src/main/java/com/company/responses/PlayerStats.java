@@ -1,7 +1,6 @@
-package com.company.entities;
+package com.company.responses;
 
 import java.util.HashMap;
-import java.util.SplittableRandom;
 
 public class PlayerStats {
     private int playerId;

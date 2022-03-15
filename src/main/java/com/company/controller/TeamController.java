@@ -1,6 +1,6 @@
 package com.company.controller;
 
-import com.company.beans.Team;
+import com.company.beans.TeamInfo;
 import com.company.services.TeamServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ public class TeamController {
     private TeamServices teamServices;
 
     @GetMapping("/team/{teamId}")
-    public Team getTeamById(@PathVariable int teamId){
+    public TeamInfo getTeamById(@PathVariable int teamId){
         return teamServices.getTeamById(teamId);
     }
 }

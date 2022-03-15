@@ -1,6 +1,6 @@
 package com.company.services;
 
-import com.company.beans.Team;
+import com.company.beans.TeamInfo;
 import com.company.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ public class TeamServicesImpl implements TeamServices {
     private TeamRepository teamRepository;
 
     @Override
-    public Team getTeamById(int teamId) {
-        return teamRepository.fetchingTeamFromDB(teamId);
+    public TeamInfo getTeamById(int teamId) {
+        return teamRepository.fetchingTeamInfoFromDB(teamId);
     }
 }

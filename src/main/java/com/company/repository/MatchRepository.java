@@ -1,8 +1,7 @@
 package com.company.repository;
 
 import com.company.beans.Game;
-import com.company.entities.Match;
-import com.company.services.MatchServices;
+import com.company.beans.MatchStats;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -11,5 +10,5 @@ import java.sql.Connection;
 public interface MatchRepository {
     int getNewMatchId();
     void insertMatch(Connection con, Game game);
-    Match getMatchById(int matchId);
+    MatchStats getMatchById(int matchId);
 }
