@@ -15,7 +15,7 @@ public class Queries {
     public static String getPlayerInfoById = "SELECT * from players_info WHERE playerId= ? ";
     public static String getBatterDetailsFromMatch = "select resultOnThatBall from per_ball_stats where batterId = ? AND matchId = ?";
     public static String getBowlerDetailsFromMatch = "select resultOnThatBall from per_ball_stats where bowlerId = ? AND matchId = ?";
-    public static String getBowlerIdWhoTookWicket = "select bowlerId from per_ball_stats where batterId = ? AND resultOnThatBall = 'W'";
+    public static String getBowlerIdWhoTookWicket = "select bowlerId from per_ball_stats where batterId = ? AND matchId = ? AND resultOnThatBall = 'W'";
 
 
 

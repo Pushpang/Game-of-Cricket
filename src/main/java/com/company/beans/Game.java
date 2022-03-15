@@ -2,59 +2,90 @@ package com.company.beans;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class Game {
-    private  int matchId;
-    private Team team1 ,team2;
-    private final DetailedScoreSheet scoreBoard = new DetailedScoreSheet();
+    private MatchStats matchStats = new MatchStats();
+    private TeamInfo team1Info, team2Info;
+    private ArrayList<PlayersInfo> playersTeam1, playersTeam2;
+    private ArrayList<ResultOnSingleBall> perBallStats = new ArrayList<>();
+    private int scoreOfFirstInning=0,scoreOfSecondInning=0;
     private int winnerTeamID;
 
-    public Game(){
 
-    }
-    public Game(int matchId) {
-        this.matchId = matchId;
+    public MatchStats getMatchStats() {
+        return matchStats;
     }
 
-    public int getMatchId() {
-        return matchId;
+    public void setMatchStats(MatchStats matchStats) {
+        this.matchStats = matchStats;
     }
 
-
-    public Team getTeam1() {
-        return team1;
+    public TeamInfo getTeam1Info() {
+        return team1Info;
     }
 
-    public void setTeam1(Team team1) {
-        this.team1 = team1;
+    public void setTeam1Info(TeamInfo team1Info) {
+        this.team1Info = team1Info;
     }
 
-    public Team getTeam2() {
-        return team2;
+    public TeamInfo getTeam2Info() {
+        return team2Info;
     }
 
-    public void setTeam2(Team team2) {
-        this.team2 = team2;
+    public void setTeam2Info(TeamInfo team2Info) {
+        this.team2Info = team2Info;
     }
 
-    public DetailedScoreSheet getScoreBoard() {
-        return scoreBoard;
+    public ArrayList<PlayersInfo> getPlayersTeam1() {
+        return playersTeam1;
+    }
+
+    public void setPlayersTeam1(ArrayList<PlayersInfo> playersTeam1) {
+        this.playersTeam1 = playersTeam1;
+    }
+
+    public ArrayList<PlayersInfo> getPlayersTeam2() {
+        return playersTeam2;
+    }
+
+    public void setPlayersTeam2(ArrayList<PlayersInfo> playersTeam2) {
+        this.playersTeam2 = playersTeam2;
+    }
+
+    public int getScoreOfFirstInning() {
+        return scoreOfFirstInning;
+    }
+
+    public void setScoreOfFirstInning(int scoreOfFirstInning) {
+        this.scoreOfFirstInning = scoreOfFirstInning;
+    }
+
+    public int getScoreOfSecondInning() {
+        return scoreOfSecondInning;
+    }
+
+    public void setScoreOfSecondInning(int scoreOfSecondInning) {
+        this.scoreOfSecondInning = scoreOfSecondInning;
     }
 
     public int getWinnerTeamID() {
         return winnerTeamID;
     }
 
+    public ArrayList<ResultOnSingleBall> getPerBallStats() {
+        return perBallStats;
+    }
+
+    public void setPerBallStats(ArrayList<ResultOnSingleBall> perBallStats) {
+        this.perBallStats = perBallStats;
+    }
+
     public void setWinnerTeamID(int winnerTeamID) {
         this.winnerTeamID = winnerTeamID;
     }
 
-    public void printResult() {
-        System.out.println("And the final result is:");
-        for(ResultOnSingleBall currBall: scoreBoard.getScoreOnEveryBall()){
-            System.out.println(currBall.getBallNumber()+" "+ currBall.getBatterId()+" "+currBall.getBowlerId()+" "+currBall.getBattingTeamId()+" "+currBall.outcome);
-        }
-    }
 
 
 

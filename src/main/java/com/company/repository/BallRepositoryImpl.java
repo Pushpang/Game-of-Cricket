@@ -1,7 +1,6 @@
 package com.company.repository;
 
 import com.company.Queries.Queries;
-import com.company.beans.DetailedScoreSheet;
 import com.company.beans.Game;
 import com.company.beans.ResultOnSingleBall;
 import org.springframework.stereotype.Service;
@@ -13,14 +12,13 @@ import java.sql.PreparedStatement;
 public class BallRepositoryImpl implements BallRepository {
     @Override
     public void insertPerBallData(Connection con, Game game) {
-        DetailedScoreSheet scoreSheet = game.getScoreBoard();
         try{
             PreparedStatement preStmt = con.prepareStatement(Queries.insertIntoPerBallStatsQuery);
 
-            for(ResultOnSingleBall currBall: scoreSheet.getScoreOnEveryBall()) {
-                preStmt.setInt(1, scoreSheet.getMatchId());
+            for(ResultOnSingleBall currBall: game.getPerBallStats()) {
+                preStmt.setInt(1, currBall.getMatchId());
                 preStmt.setInt(2, currBall.getBattingTeamId());
-                preStmt.setInt(3, currBall.getBallNumber() / 6);
+                preStmt.setInt(3, currBall.getOverNumber());
                 preStmt.setInt(4, currBall.getBallNumber());
                 preStmt.setInt(5, currBall.getBatterId());
                 preStmt.setInt(6, currBall.getBowlerId());
